@@ -15,22 +15,22 @@ export const helperMixin = {
         .join(' ');
     },
     frontendTimeFormat: function(value) {
-      return moment(value, 'HHmm').format(
+      return moment.utc(value, 'HHmm').format(
         this.hourFormat24 ? 'HH:mm' : 'hh:mm A'
       );
     },
     backendTimeFormat: function(value) {
-      return moment(value, 'hh:mm A').format('HHmm');
+      return moment.utc(value, 'hh:mm A').format('HHmm');
     },
     isValidFrontendTime: function(value) {
-      return moment(
+      return moment.utc(
         value,
         this.hourFormat24 ? 'HH:mm' : 'hh:mm A',
         true
       ).isValid();
     },
     isValidBackendTime: function(value) {
-      return moment(value, 'HHmm', true).isValid();
+      return moment.utc(value, 'HHmm', true).isValid();
     },
     frontendInputFormat: function(value) {
       if (value === '24hrs') {
