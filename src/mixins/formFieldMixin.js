@@ -110,7 +110,9 @@ export const formFieldMixin = {
   },
   filters: {
     formatTime: function(time, hourFormat24) {
-      return moment(time, 'HHmm').format(hourFormat24 ? 'HH:mm' : 'hh:mm A');
+      return moment
+        .utc(time, 'HHmm')
+        .format(hourFormat24 ? 'HH:mm' : 'hh:mm A');
     }
   },
   methods: {
@@ -121,9 +123,10 @@ export const formFieldMixin = {
       let currentTime = '0000',
         times = [];
 
+      // UTC has no DST: in local time 02:30 + 30min is 02:00 on the fall-back day and this never ends
       do {
         times.push(currentTime);
-        currentTime = moment(currentTime, 'HHmm')
+        currentTime = moment.utc(currentTime, 'HHmm')
           .add(timeIncrement, 'minutes')
           .format('HHmm');
       } while (currentTime !== '0000');
